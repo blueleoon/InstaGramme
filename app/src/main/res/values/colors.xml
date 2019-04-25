@@ -6,6 +6,7 @@
     <color name="black">#000</color>
     <color name="whiteish">#fafafa</color>
     <color name="white">#fff</color>
+    <color name="grey">#bbb</color>
 
 
 </resources>

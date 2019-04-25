@@ -10,6 +10,13 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        bottom_navigation_view.setTextVisibility(false);
+        bottom_navigation_view.setTextVisibility(false)
+        bottom_navigation_view.enableShiftingMode(false)
+        bottom_navigation_view.enableItemShiftingMode(false)
+        bottom_navigation_view.setIconSize(29f, 29f)
+        bottom_navigation_view.enableAnimation(false)
+        for ( i in 0 until bottom_navigation_view.menu.size()){
+            bottom_navigation_view.setIconTintList(i, null)
+        }
     }
 }

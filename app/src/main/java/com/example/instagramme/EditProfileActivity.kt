@@ -3,21 +3,19 @@ package com.example.instagramme
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_profile.*
 
-class ProfileActivity : BaseActivity(4) {
-    private val TAG = "ProfileActivity"
+class EditProfileActivity : BaseActivity(0) {
+    private val TAG = "EditProfileActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        setContentView(R.layout.activity_edit_profile)
 
-       setupbottomnavigation()
         Log.d(TAG, "onCreate")
-
-        edit_profile_btn.setOnClickListener{
-            val intent = Intent(this, EditProfileActivity::class.java)
-            startActivity(intent)
+        close_image.setOnClickListener{
+            finish()
         }
     }
 }

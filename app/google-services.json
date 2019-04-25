@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "230080024334",
+    "firebase_url": "https://instagramme-f2864.firebaseio.com",
+    "project_id": "instagramme-f2864",
+    "storage_bucket": "instagramme-f2864.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230080024334:android:ffe85b0eeaf176fb",
+        "android_client_info": {
+          "package_name": "com.example.instagramme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230080024334-5egmjo14ipsinu3gem5n1kmtd0rlef3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGyw7uPfflksWVTzCEy2BA0enc7_bLH_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230080024334-5egmjo14ipsinu3gem5n1kmtd0rlef3t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

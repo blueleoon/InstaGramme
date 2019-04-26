@@ -26,7 +26,7 @@ class EditProfileActivity : BaseActivity(0) {
         val database = FirebaseDatabase.getInstance().reference
         database.child("users").child(auth.currentUser!!.uid)
             .addListenerForSingleValueEvent(ValueEventListenerAdapter{
-            override fun onDataChange(data: DataSnapshot) {
+            fun onDataChange(data: DataSnapshot) {
                 val user = it.getValue(User::class.java)
                 name_input.setText(user!!.name, TextView.BufferType.EDITABLE)
                 user_input.setText(user.username, TextView.BufferType.EDITABLE)

@@ -1,10 +1,11 @@
-package com.example.instagramme
+package com.example.instagramme.activities
 
 import android.os.Bundle
 import android.util.Log
+import com.example.instagramme.R
 
-class LikesActivity :  BaseActivity(3) {
-    private val TAG = "LikesActivity"
+class ShareActivity : BaseActivity(2) {
+    private val TAG = "ShareActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

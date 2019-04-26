@@ -2,4 +2,5 @@
     <string name="app_name">InstaGramme</string>
     <string name="username">Ter2Ter</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="create_account">Don\'t have an account ? <b>Sign up</b> !</string>
 </resources>

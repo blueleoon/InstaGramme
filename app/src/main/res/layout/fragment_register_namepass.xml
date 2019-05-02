@@ -26,7 +26,7 @@
             app:layout_constraintTop_toBottomOf="@id/title"
             android:hint="Full name"
     /><EditText
-            android:id="@+id/password_input"
+            android:id="@+id/password_input_register"
             style="@style/login_input"
             android:inputType="textPassword"
             app:layout_constraintTop_toBottomOf="@id/full_name_input"
@@ -35,7 +35,7 @@
 
     <Button
             style="@style/btn_login_input"
-            app:layout_constraintTop_toBottomOf="@id/password_input"
+            app:layout_constraintTop_toBottomOf="@id/password_input_register"
             android:id="@+id/register_btn"
             android:text="Register"
     />

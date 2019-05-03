@@ -1,23 +1,26 @@
 package com.example.instagramme.activities
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
 import com.example.instagramme.R
 import com.example.instagramme.models.User
 import com.example.instagramme.views.PasswordDialog
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
-class EditProfileActivity : BaseActivity(0) {
+class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
+
     private val TAG = "EditProfileActivity"
     private lateinit var mUser: User
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mDatabase: DatabaseReference
-
+    private lateinit var mPendingUser: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -49,25 +52,54 @@ class EditProfileActivity : BaseActivity(0) {
     }
 
     private fun updateProfile() {
-        val user = User(
+            mPendingUser = readInputs()
+
+        val error = validate(mPendingUser)
+        if (error == null){
+            if (mPendingUser.email == mUser.email ) {
+                showToast("update profile ")
+                updateUser(mPendingUser)
+            } else {
+
+            }
+        } else {
+            showToast(error)
+        }
+    }
+
+    private fun readInputs(): User {
+        val phoneStr = phone_input.text.toString()
+        return User(
             name = name_input.text.toString(),
             username = user_input.text.toString(),
             website = website_input.text.toString(),
             bio = bio_input.text.toString(),
             email = email_input.text.toString(),
-            phone = phone_input.text.toString()
+            phone = if (phoneStr.isEmpty()) 0.toString() else phoneStr
         )
+    }
 
-        val error = validate(user)
-        if (error == null){
-            if (user.email == mUser.email ) {
-                showToast("update profile ")
-                updateUser(user)
-            } else {
-                    PasswordDialog.show(supportFragmentManager, "password_dialog")
+    override fun onPasswordConfirm(password: String) {
+        if (password.isNotEmpty()){
+            Log.d(TAG, "onPasswordConfirm password : $password")
+            PasswordDialog.show(supportFragmentManager, "password_dialog")
+            val credential = EmailAuthProvider.getCredential(mUser.email, password)
+            mAuth.currentUser!!.reauthenticate(credential).addOnCompleteListener{
+                if (it.isSuccessful){
+                    mAuth.currentUser!!.updateEmail(mPendingUser.email).addOnCompleteListener{
+                        if (it.isSuccessful){
+                            updateUser(mPendingUser)
+                        } else {
+                            showToast("Problem onPasswordConfirm : "  + it.exception!!.message!!)
+                        }
+                    }
+                } else {
+                    showToast("Problem onPasswordConfirm : "  + it.exception!!.message!!)
+                }
             }
+
         } else {
-            showToast(error)
+            showToast("Enter password   ")
         }
     }
 
@@ -86,7 +118,7 @@ class EditProfileActivity : BaseActivity(0) {
                 showToast("Profile saved")
                 finish()
             } else {
-                showToast("Problem here : "  + it.exception!!.message!!)
+                showToast("Problem updateUser : "  + it.exception!!.message!!)
             }
         }
     }

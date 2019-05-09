@@ -23,12 +23,12 @@ class PasswordDialog: DialogFragment() {
         val view = activity!!.layoutInflater.inflate(R.layout.dialog_password, null)
         return AlertDialog.Builder(context!!)
             .setView(view)
-            .setPositiveButton(android.R.string.ok, { _ , _ ->
+            .setPositiveButton(android.R.string.ok) { _, _ ->
                 mListener.onPasswordConfirm(view.password_input.text.toString())
-            })
-            .setNegativeButton(android.R.string.cancel, {_,_ ->
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ ->
 
-            })
+            }
             .setTitle(R.string.please_enter_password)
             .create()
     }

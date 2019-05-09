@@ -1,6 +1,8 @@
 package com.example.instagramme.activities
 
 import android.os.Bundle
+import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
@@ -82,7 +84,7 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
     override fun onPasswordConfirm(password: String) {
         if (password.isNotEmpty()){
             Log.d(TAG, "onPasswordConfirm password : $password")
-            PasswordDialog.show(supportFragmentManager, "password_dialog")
+            PasswordDialog().show(supportFragmentManager, "password_dialog")
             val credential = EmailAuthProvider.getCredential(mUser.email, password)
             mAuth.currentUser!!.reauthenticate(credential).addOnCompleteListener{
                 if (it.isSuccessful){

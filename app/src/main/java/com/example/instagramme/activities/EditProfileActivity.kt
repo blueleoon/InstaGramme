@@ -1,8 +1,11 @@
 package com.example.instagramme.activities
 
 import android.os.Bundle
-import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.net.Uri
+import android.os.Environment
+import android.provider.MediaStore
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
@@ -16,7 +19,13 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
 
@@ -24,7 +33,14 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
     private lateinit var mUser: User
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mDatabase: DatabaseReference
+    private lateinit var mStorage: StorageReference
     private lateinit var mPendingUser: User
+    val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss, Locale.FR")
+    private lateinit var mImageUri: Uri
+
+
+    private val TAKE_PICTURE_REQUEST_CODE = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -36,9 +52,11 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
         save_image.setOnClickListener{
             updateProfile()
         }
+        change_photo_text.setOnClickListener({ takeCameraPicture() })
 
         mAuth = FirebaseAuth.getInstance()
         mDatabase = FirebaseDatabase.getInstance().reference
+        mStorage = FirebaseStorage.getInstance().reference
         mDatabase.child("users").child(mAuth.currentUser!!.uid)
             .addListenerForSingleValueEvent(ValueEventListenerAdapter{
             fun onDataChange(data: DataSnapshot) {
@@ -53,6 +71,60 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
                 phone_input.setText(mUser.phone.toString(), TextView.BufferType.EDITABLE)
             }
         })
+    }
+
+
+
+    private fun takeCameraPicture() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (intent.resolveActivity(packageManager) != null){
+            val imageFile = createImageFile()
+            mImageUri = FileProvider.getUriForFile(
+                this,
+                "com.example.instagramme.fileprovider",
+                imageFile
+            )
+            intent.putExtra( MediaStore.EXTRA_OUTPUT ,mImageUri)
+            startActivityForResult(intent, TAKE_PICTURE_REQUEST_CODE)
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${simpleDateFormat.format(Date())}_",
+            ".jpg",
+            storageDir
+        )
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == TAKE_PICTURE_REQUEST_CODE && resultCode == RESULT_OK){
+            val uid = mAuth.currentUser!!.uid
+            val ref = mStorage.child("users/$uid/photo")
+            ref.putFile(mImageUri).addOnCompleteListener{ it ->
+                if(it.isSuccessful){
+                    ref.downloadUrl.addOnCompleteListener {
+                        val photoUrl = it.result.toString()
+                        mDatabase.child("users/$uid/photo").setValue(photoUrl).addOnCompleteListener{
+                            if (it.isSuccessful){
+                                mUser = mUser.copy(photo = photoUrl)
+                                profile_image.loadUserPhoto(mUser.photo)
+                            }else{
+                                showToast(it.exception!!.message!!)
+                            }
+                        }
+                    }
+
+                }else{
+                    showToast(it.exception!!.message!!)
+                }
+            }
+        }
     }
 
     private fun updateProfile() {

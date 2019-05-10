@@ -1,3 +1,4 @@
 # InstaGramme
 
-Welcome to InstaGramme, the very first social media to show of your best weighing
+Welcome to InstaGramme
+

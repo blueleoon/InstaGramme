@@ -5,10 +5,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
+import com.example.instagramme.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_register_email.view.*
 import java.time.Duration
 
 
@@ -26,6 +31,10 @@ class ValueEventListenerAdapter(val handler: (DataSnapshot) -> Unit) : ValueEven
 
 }
 
+@GlideModule
+class CustomGlideModule : AppGlideModule() {
+
+}
 
 fun Context.showToast(text: String, duration: Int = Toast.LENGTH_SHORT ){
     Toast.makeText(this, text, duration ).show()
@@ -48,4 +57,8 @@ fun coordinateBtnAndInputs(btn: Button, vararg inputs: EditText){
         it.addTextChangedListener(watcher)
         btn.isEnabled =  inputs.all { it.text.isNotEmpty() }
     }
+}
+
+fun ImageView.loadUserPhoto(photoUrl : String?){
+    GlideApp.with(this).load(phoroUrl).fallback(R.drawable.person).into(this)
 }

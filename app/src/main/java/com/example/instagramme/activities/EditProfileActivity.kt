@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.instagramme.R
 import com.example.instagramme.models.User
@@ -69,6 +70,7 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
                 bio_input.setText(mUser.bio, TextView.BufferType.EDITABLE)
                 email_input.setText(mUser.email, TextView.BufferType.EDITABLE)
                 phone_input.setText(mUser.phone.toString(), TextView.BufferType.EDITABLE)
+                profile_image.loadUserPhoto(mUser.photo)
             }
         })
     }
@@ -126,6 +128,12 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
             }
         }
     }
+
+
+
+
+
+
 
     private fun updateProfile() {
             mPendingUser = readInputs()

@@ -1,5 +1,6 @@
 package com.example.instagramme.activities
 
+import android.app.Activity
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
@@ -60,5 +61,13 @@ fun coordinateBtnAndInputs(btn: Button, vararg inputs: EditText){
 }
 
 fun ImageView.loadUserPhoto(photoUrl : String?){
-    GlideApp.with(this).load(phoroUrl).fallback(R.drawable.person).into(this)
+    if (!   (context as Activity).isDestroyed){
+        GlideApp.with(this).load(phoroUrl).fallback(R.drawable.person).into(this)
+    }
+}
+
+
+fun Editable.toStringOrNull(): String?  {
+    val str = toString()
+    return if(str.isEmpty()) null else str
 }

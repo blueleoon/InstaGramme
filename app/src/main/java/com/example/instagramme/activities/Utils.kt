@@ -14,8 +14,6 @@ import com.example.instagramme.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.fragment_register_email.view.*
-import java.time.Duration
 
 
 class ValueEventListenerAdapter(val handler: (DataSnapshot) -> Unit) : ValueEventListener {
@@ -33,9 +31,7 @@ class ValueEventListenerAdapter(val handler: (DataSnapshot) -> Unit) : ValueEven
 }
 
 @GlideModule
-class CustomGlideModule : AppGlideModule() {
-
-}
+class CustomGlideModule : AppGlideModule()
 
 fun Context.showToast(text: String, duration: Int = Toast.LENGTH_SHORT ){
     Toast.makeText(this, text, duration ).show()

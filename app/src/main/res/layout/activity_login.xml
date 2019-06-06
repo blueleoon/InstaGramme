@@ -27,7 +27,7 @@
                 android:id="@+id/description"
                 style="@style/edit_profile_label"
                 app:layout_constraintTop_toBottomOf="@+id/instagramme_image"
-                android:text="The best social media to share your weighing !"
+                android:text="The best social media to share your recipes !"
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginTop="20dp"

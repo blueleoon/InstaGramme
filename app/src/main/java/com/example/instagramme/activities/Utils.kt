@@ -8,30 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import com.bumptech.glide.annotation.GlideModule
-import com.bumptech.glide.module.AppGlideModule
 import com.example.instagramme.R
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.example.instagramme.utils.GlideApp
 
-
-class ValueEventListenerAdapter(val handler: (DataSnapshot) -> Unit) : ValueEventListener {
-    private val TAG = "ValueEventListenerAdapt"
-
-    override fun onDataChange(data: DataSnapshot) {
-        handler(data)
-    }
-
-    override fun onCancelled(p0: DatabaseError) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-
-}
-
-@GlideModule
-class CustomGlideModule : AppGlideModule()
 
 fun Context.showToast(text: String, duration: Int = Toast.LENGTH_SHORT ){
     Toast.makeText(this, text, duration ).show()
@@ -58,7 +37,7 @@ fun coordinateBtnAndInputs(btn: Button, vararg inputs: EditText){
 
 fun ImageView.loadUserPhoto(photoUrl : String?){
     if (!   (context as Activity).isDestroyed){
-        GlideApp.with(this).load(phoroUrl).fallback(R.drawable.person).into(this)
+        GlideApp.with(this).load(photoUrl).fallback(R.drawable.person).into(this)
     }
 }
 

@@ -19,6 +19,7 @@
 
 
             <TextView
+                    android:id="@+id/username_text"
                     style="@style/toolbar_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +52,7 @@
             android:layout_marginStart="15dp"
             app:layout_constraintEnd_toStartOf="@id/edit_profile_btn"
             app:layout_constraintHorizontal_weight="2"
-            android:src="@drawable/android_picture"/>
+            android:src="@drawable/person"/>
 
     <TextView
             android:text="50"

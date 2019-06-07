@@ -5,4 +5,6 @@
     <string name="create_account">Don\'t have an account ? <b>Sign up</b> !
     </string>
     <string name="please_enter_password">Please enter your password</string>
+    <string name="share_activity_name">Share to</string>
+    <string name="share_caption">Enter caption here ...</string>
 </resources>

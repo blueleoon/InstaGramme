@@ -29,8 +29,8 @@ class HomeActivity : BaseActivity(0) {
                 finish()
             }
         }
-        //mAuth.signOut()
-        /*mAuth.signInWithEmailAndPassword("capeselourd@auterter.com", "icicparis")
+        //auth.signOut()
+        /*auth.signInWithEmailAndPassword("capeselourd@auterter.com", "icicparis")
             .addOnCompleteListener{
                 if (it.isSuccessful){
                     Log.d(TAG, "Ca va peser !")
